@@ -5,7 +5,7 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ts-node ./compile.ts"
+    "build": "ts-node ./compile.ts ./src -o ./build"
   },
   "author": "",
   "license": "ISC",
