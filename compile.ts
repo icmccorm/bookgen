@@ -41,7 +41,7 @@ if(unfilteredSourceFiles.length == 0){
 }
 
 //filter those that match s1_..., s2_..., s3_..., etc
-const validFilenamePattern = /^s(?<index>[0-9]+)_[a-zA-Z0-9_-\s]+\.md$/;
+const validFilenamePattern = /^ch(?<index>[0-9]+)_[a-zA-Z0-9_-\s]+\.md$/;
 const validFilenames = [];
 
 for (let filename of unfilteredSourceFiles) {
