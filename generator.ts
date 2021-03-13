@@ -7,11 +7,58 @@ import * as path from 'path'
 const md = new MarkdownIt();
 
 const ENCODING = "utf-8";
+const VALID_CH_FILENAME = /^ch(?<index>[0-9]+)_[a-zA-Z0-9_-\s]+\.md$/;
 
 type RenderedChapter = {
     title: string,
     content: string,
     table: string,
+}
+
+export const filterSourceFiles = (sourceDir: string, unfiltered: Array<string>): Array<string> => {
+    let validFilenames = []
+    for (let filename of unfiltered) {
+        let match:RegExpExecArray = VALID_CH_FILENAME.exec(filename);
+        if(match == null) {
+            out.warn("'" + filename + "' is not a valid section filename and will be ignored.");
+        }else{
+            let startIndex = 0;
+            let endIndex = validFilenames.length;
+            let testIndex = Math.floor(startIndex + (endIndex - startIndex) / 2);
+            let testElement:RegExpExecArray = validFilenames[testIndex]
+            while(startIndex != endIndex){
+                if(parseInt(testElement.groups.index) > parseInt(match.groups.index)){
+                    endIndex = parseInt(testElement.groups.index)
+                }else if (parseInt(testElement.groups.index) < parseInt(match.groups.index)){
+                    startIndex = parseInt(testElement.groups.index)
+                }else{
+                    out.err("'" + filename + "' and '" + testElement[0] + "' share the same index.");
+                    process.exit(1);
+                }
+                testIndex = Math.floor(startIndex + (endIndex - startIndex) / 2);
+                testElement = validFilenames[testIndex]
+            }
+            validFilenames.splice(startIndex, 0, match);
+        }
+    }
+    
+    // exit if the list has missing ordinal items, starting with s1
+    for(let index = 0; index<validFilenames.length; ++index){
+        let expectedSectionIndex = index + 1;
+        let currentSectionIndex = parseInt(validFilenames[index].groups.index);
+        if(expectedSectionIndex != currentSectionIndex){
+            let difference = currentSectionIndex - expectedSectionIndex;
+            if(difference > 1){
+                out.err("Sections " + (expectedSectionIndex) + "-" + (currentSectionIndex - 1) + " are missing.");
+            }else{
+                out.err("Section " + (expectedSectionIndex) + " is missing.");
+            }
+            process.exit(1);
+        }else{
+            validFilenames[index] = path.join(sourceDir, validFilenames[index][0]);
+        }
+    }
+    return validFilenames;
 }
 
 export const generateChapters = (filenames: Array<string>): Array<RenderedChapter> => {
