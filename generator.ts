@@ -15,17 +15,34 @@ type RenderedChapter = {
     table: string,
 }
 
-export const filterSourceFiles = (sourceDir: string, unfiltered: Array<string>): Array<string> => {
-    let validFilenames = []
+type RenderedBook = {
+    title: string,
+    intro_content: string,
+    chapters: Array<RenderedChapter>
+}
+
+type RawBook = {
+    cover: string,
+    chapters: Array<string>
+}
+
+export const filterSourceFiles = (sourceDir: string, unfiltered: Array<string>): RawBook => {
+    let chapters = []
+    let cover = null;
+
     for (let filename of unfiltered) {
         let match:RegExpExecArray = VALID_CH_FILENAME.exec(filename);
         if(match == null) {
-            out.warn("'" + filename + "' is not a valid section filename and will be ignored.");
+            if(filename !== "cover.md"){
+                out.warn("'" + filename + "' is not a valid section filename and will be ignored.");
+            }else{
+                cover = path.resolve(sourceDir, "cover.md");
+            }
         }else{
             let startIndex = 0;
-            let endIndex = validFilenames.length;
+            let endIndex = chapters.length;
             let testIndex = Math.floor(startIndex + (endIndex - startIndex) / 2);
-            let testElement:RegExpExecArray = validFilenames[testIndex]
+            let testElement:RegExpExecArray = chapters[testIndex]
             while(startIndex != endIndex){
                 if(parseInt(testElement.groups.index) > parseInt(match.groups.index)){
                     endIndex = parseInt(testElement.groups.index)
@@ -36,16 +53,18 @@ export const filterSourceFiles = (sourceDir: string, unfiltered: Array<string>):
                     process.exit(1);
                 }
                 testIndex = Math.floor(startIndex + (endIndex - startIndex) / 2);
-                testElement = validFilenames[testIndex]
+                testElement = chapters[testIndex]
             }
-            validFilenames.splice(startIndex, 0, match);
+            chapters.splice(startIndex, 0, match);
         }
     }
     
+    if(cover === null) out.err("Source directory " + sourceDir + " does not contain a cover file (cover.md).");
+
     // exit if the list has missing ordinal items, starting with s1
-    for(let index = 0; index<validFilenames.length; ++index){
+    for(let index = 0; index<chapters.length; ++index){
         let expectedSectionIndex = index + 1;
-        let currentSectionIndex = parseInt(validFilenames[index].groups.index);
+        let currentSectionIndex = parseInt(chapters[index].groups.index);
         if(expectedSectionIndex != currentSectionIndex){
             let difference = currentSectionIndex - expectedSectionIndex;
             if(difference > 1){
@@ -55,15 +74,17 @@ export const filterSourceFiles = (sourceDir: string, unfiltered: Array<string>):
             }
             process.exit(1);
         }else{
-            validFilenames[index] = path.join(sourceDir, validFilenames[index][0]);
+            chapters[index] = path.join(sourceDir, chapters[index][0]);
         }
     }
-    return validFilenames;
+    return {
+        cover: cover,
+        chapters: chapters
+    };
 }
 
 export const generateChapters = (filenames: Array<string>): Array<RenderedChapter> => {
     let chapters = [];
-
     for(let index = 0; index < filenames.length; ++index){
         let filename = filenames[index];
         const fileContents = fs.readFileSync(filename, ENCODING);
@@ -98,4 +119,27 @@ export const generateChapters = (filenames: Array<string>): Array<RenderedChapte
     }
 
     return chapters;
+}
+
+export const generateBook = (raw:RawBook):RenderedBook => {
+    let coverContent = fs.readFileSync(raw.cover, "utf-8");
+    let coverHTMLString = md.render(coverContent);
+    let coverDOM = cheerio.load(coverHTMLString);
+
+    let title = "";
+    let firstHeadings = coverDOM("h1");
+    if(firstHeadings.length == 0){
+        out.warn('The cover of the book does not include a title.');
+    }else{
+        if(firstHeadings.length > 1){
+            out.warn('The cover of the book uses more than one title-level heading.');
+        }
+        title = (firstHeadings[0] as any).children[0].data;        
+    }
+
+    return {
+        title: title,
+        intro_content: coverHTMLString,
+        chapters: generateChapters(raw.chapters)
+    }
 }

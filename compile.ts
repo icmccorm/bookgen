@@ -20,7 +20,7 @@ const args = yargs
         type: "string"
     })
     .option("template", {
-        alias: "temp",
+        alias: "t",
         type: "string"
     })  
     .argv;
@@ -28,12 +28,6 @@ const args = yargs
 const sourceDir = args.input ? args.input : "./";
 if(!fs.existsSync(sourceDir)){
     out.msg("The specified source directory '" + sourceDir + "' does not exist.");
-    process.exit(1);
-}
-
-const destinationDir = args.output ? args.output : "./";
-if(!fs.existsSync(destinationDir)){
-    out.msg("The specified destination directory '" + destinationDir + "' does not exist.");
     process.exit(1);
 }
 
@@ -52,9 +46,8 @@ if(!fs.existsSync(path.join(templateDir, "cover.html"))){
     process.exit(1);
 }
 
-let chapterTemplate = fs.readFileSync(path.join(templateDir, "chapter.html"));
-let coverTemplate = fs.readFileSync(path.join(templateDir, "cover.html"));
-
+let chapterTemplate = fs.readFileSync(path.join(templateDir, "chapter.html"), "utf-8");
+let coverTemplate = fs.readFileSync(path.join(templateDir, "cover.html"), "utf-8");
 
 const CONTENT_TARGET_ID = "content";
 const TABLE_TARGET_ID = "table";
@@ -67,8 +60,8 @@ if(unfilteredSourceFilenames.length == 0){
     process.exit(1);
 }
 
-const validSourceFilenames = generator.filterSourceFiles(sourceDir, unfilteredSourceFilenames);
-let renderedChapters = generator.generateChapters(validSourceFilenames);
+const rawBook = generator.filterSourceFiles(sourceDir, unfilteredSourceFilenames);
+let renderedBook = generator.generateBook(rawBook);
 
 let chapterDOM = cheerio.load(chapterTemplate, { decodeEntities: true });
 let coverDOM = cheerio.load(coverTemplate, { decodeEntities: true });
@@ -79,16 +72,38 @@ let coverContentDiv = coverDOM("#" + CONTENT_TARGET_ID);
 let chapterTableDiv = chapterDOM("#" + TABLE_TARGET_ID);
 let coverTableDiv = coverDOM("#" + TABLE_TARGET_ID);
 
-// Set innerHtml by =>  [component].html([html_string]);
-
+const destinationDir = args.output ? args.output : "./";
 if(!fs.existsSync(destinationDir)){
     fs.mkdirSync(destinationDir);
+}else{
+    fse.emptyDirSync(destinationDir);
 }
 
-for(let chapterIndex = 0; chapterIndex < renderedChapters.length; ++chapterIndex){
-    let chapter = renderedChapters[chapterIndex];
+let templateFiles = fs.readdirSync(templateDir);
+const REQUIRED_TEMPLATE_FILES = ["chapter.html", "cover.html"]
+
+
+for(let templateFile of templateFiles){
+    let filePath = path.resolve(templateDir, templateFile);
+    let ignorable = REQUIRED_TEMPLATE_FILES.includes(templateFile);
+    if(!ignorable){
+        fse.copy(filePath, path.resolve(destinationDir, templateFile))
+    }
+}
+
+coverContentDiv.html(renderedBook.intro_content);
+let headings = ""
+
+for(let chapterIndex = 0; chapterIndex < renderedBook.chapters.length; ++chapterIndex){
+    let chapter = renderedBook.chapters[chapterIndex];
     chapterContentDiv.html(chapter.content);
     chapterTableDiv.html(chapter.table);
     let htmlRendered = chapterDOM.html({ decodeEntities: true });
+    let docName = "ch" + chapterIndex + ".html";
+    headings += '<li><a href="' + docName + '">' + chapter.title + "</a></li>\n";
     fs.writeFileSync(path.join(destinationDir, "ch" + chapterIndex + ".html"), htmlRendered);
 }
+
+coverTableDiv.html(headings)
+let coverHtmlRendered = coverDOM.html({ decodeEntities: true });
+fs.writeFileSync(path.join(destinationDir, "index.html"), coverHtmlRendered);
