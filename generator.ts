@@ -137,9 +137,11 @@ export const generateBook = (raw:RawBook):RenderedBook => {
         title = (firstHeadings[0] as any).children[0].data;        
     }
 
+    firstHeadings.remove();
+
     return {
         title: title,
-        intro_content: coverHTMLString,
+        intro_content: coverDOM.html({ decodeEntities: true }),
         chapters: generateChapters(raw.chapters)
     }
 }

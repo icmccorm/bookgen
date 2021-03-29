@@ -51,6 +51,7 @@ let coverTemplate = fs.readFileSync(path.join(templateDir, "cover.html"), "utf-8
 
 const CONTENT_TARGET_ID = "content";
 const TABLE_TARGET_ID = "table";
+const TITLE_TARGET_ID = "title";
 
 //read in an ordered list of .md files in sourceDir
 const unfilteredSourceFilenames = fs.readdirSync(sourceDir);
@@ -69,6 +70,8 @@ let coverDOM = cheerio.load(coverTemplate, { decodeEntities: true });
 let chapterContentDiv = chapterDOM("#" + CONTENT_TARGET_ID);
 let coverContentDiv = coverDOM("#" + CONTENT_TARGET_ID);
 
+let coverTitle = coverDOM("#" + TITLE_TARGET_ID);
+
 let chapterTableDiv = chapterDOM("#" + TABLE_TARGET_ID);
 let coverTableDiv = coverDOM("#" + TABLE_TARGET_ID);
 
@@ -82,7 +85,6 @@ if(!fs.existsSync(destinationDir)){
 let templateFiles = fs.readdirSync(templateDir);
 const REQUIRED_TEMPLATE_FILES = ["chapter.html", "cover.html"]
 
-
 for(let templateFile of templateFiles){
     let filePath = path.resolve(templateDir, templateFile);
     let ignorable = REQUIRED_TEMPLATE_FILES.includes(templateFile);
@@ -92,6 +94,7 @@ for(let templateFile of templateFiles){
 }
 
 coverContentDiv.html(renderedBook.intro_content);
+coverTitle.text(renderedBook.title);
 let headings = ""
 
 for(let chapterIndex = 0; chapterIndex < renderedBook.chapters.length; ++chapterIndex){

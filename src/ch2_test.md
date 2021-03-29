@@ -1,4 +1,4 @@
-# Chapter 2 - Lorem Ipsum
+# Chapter 2 - Sharing your ideas with the world 
 
 ## Modo dis navigiis eripitur ludos harena parabat
 

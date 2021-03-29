@@ -1,4 +1,4 @@
-# Chapter 3 - Lorem Ipsum
+# Chapter 3 - From acceptance to publication
 
 ## Modo dis navigiis eripitur ludos harena parabat
 

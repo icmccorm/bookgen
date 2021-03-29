@@ -1,4 +1,82 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab:wght@300&display=swap');
+
+
+* {
+    box-sizing: border-box;
+}
+.flex {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+    
+}
+.flex * {}
+
+.flex-sm{
+    width: 15%;
+    flex-grow: 2;
+}
+
+.title-pane {
+    background-color: #363635;
+    padding: 1em;
+
+    font-family: 'Roboto Slab', serif;
+    color: #FAF3DD;
+}
+
+.title-pane h1{
+    font-family: 'Roboto Slab', serif !important;
+}
+
+.flex-md {
+    width: 33%;
+    flex-grow: 3;
+    
+}
+
+.intro-pane {
+    background-color: #FAF3DD;
+    box-shadow: inset 9px 0px 18px -11px #000000;
+    padding: 3em;
+
+}
+
+.flex-lg {
+    flex-grow: 6;
+}
+
+.contents-pane {
+    background-color: white;
+    box-shadow: inset 15px 0px 18px -11px #00000011;
+    padding: 3em;
+}
+
+.contents-pane li {
+    display: block;
+    box-shadow: 0px 0px 0px -4px #000000;
+    width: 100%;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+li a {
+    text-decoration: none;
+    color: black;
+}
+
+.contents-pane li {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.contents-pane li {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+
 p {
     font-family: 'Roboto Slab', serif;
     padding-bottom: 1rem;
@@ -10,22 +88,6 @@ h1, h2, h3, h4, h5, h6{
     padding-bottom: 1rem;
 }
 
-.background {
-    width: 100%;
-    height: 100%;
-    background-color: #363635;
-    padding: 2em
-}
-
-.foreground {
-    background-color: white;
-    z-index: 1;
-    margin-left: auto;
-    margin-right: auto;
-    width: 75%;
-    padding: 2em;
-    border-radius: 2em;
-}
 
 * {
     margin: 0;
@@ -90,4 +152,13 @@ body {
 }
 #navbox li:before {
     content: counter(step-counter)". ";
+}
+
+li {
+    display: block;
+    box-shadow: 0px 0px 13px -4px #000000;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16pt;
+    width: 100%;
+    padding: 1em;
 }

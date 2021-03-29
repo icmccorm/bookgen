@@ -1,4 +1,4 @@
-# Chapter 1 - Lorem Ipsum
+# Chapter 1 - What exactly is research, anyway?
 
 ## Modo dis navigiis eripitur ludos harena parabat
 
