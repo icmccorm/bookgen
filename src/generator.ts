@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 const MarkdownIt = require("markdown-it");
-const md = new MarkdownIt();
+const md = new MarkdownIt().use(require('markdown-it-mathjax')());;
 
 const ENCODING = "utf-8";
 const VALID_CH_FILENAME = /^ch(?<index>[0-9]+)_[a-zA-Z0-9_-\s]+\.md$/;

@@ -25,7 +25,8 @@ var out = __importStar(require("./output"));
 var fs = __importStar(require("fs"));
 var path = __importStar(require("path"));
 var MarkdownIt = require("markdown-it");
-var md = new MarkdownIt();
+var md = new MarkdownIt().use(require('markdown-it-mathjax')());
+;
 var ENCODING = "utf-8";
 var VALID_CH_FILENAME = /^ch(?<index>[0-9]+)_[a-zA-Z0-9_-\s]+\.md$/;
 var filterSourceFiles = function (sourceDir, unfiltered) {

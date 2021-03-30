@@ -1,11 +1,11 @@
 #!/usr/bin/env node
+import * as generator from './generator'
 import * as fs from 'fs'
 import * as yargs from 'yargs'
 import * as out from './output'
 import * as cheerio from 'cheerio'
 import * as path from 'path'
 import * as fse from 'fs-extra'
-import * as generator from './generator'
 
 const args = yargs
     .option("input", {

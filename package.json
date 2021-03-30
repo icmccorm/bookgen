@@ -9,7 +9,6 @@
   },
   "scripts": {
     "start": "node ./build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
   "author": "Ian C. McCormack",
@@ -20,6 +19,7 @@
     "cheerio": "^1.0.0-rc.5",
     "fs-extra": "^9.1.0",
     "markdown-it": "^12.0.4",
+    "markdown-it-mathjax": "^2.0.0",
     "ts-node": "^9.1.1",
     "yargs": "^16.2.0"
   },
@@ -27,7 +27,6 @@
     "@types/fs-extra": "^9.0.8",
     "@types/markdown-it": "^12.0.1",
     "@types/node": "^14.14.33",
-    "@types/yargs": "^16.0.0",
-    "gh-pages": "^3.1.0"
+    "@types/yargs": "^16.0.0"
   }
 }

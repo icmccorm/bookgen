@@ -20,13 +20,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var generator = __importStar(require("./generator"));
 var fs = __importStar(require("fs"));
 var yargs = __importStar(require("yargs"));
 var out = __importStar(require("./output"));
 var cheerio = __importStar(require("cheerio"));
 var path = __importStar(require("path"));
 var fse = __importStar(require("fs-extra"));
-var generator = __importStar(require("./generator"));
 var args = yargs
     .option("input", {
     alias: "i",
@@ -41,12 +41,12 @@ var args = yargs
     type: "string"
 })
     .argv;
-var sourceDir = args.input ? args.input : "./";
+var sourceDir = args.input ? args.input : "./src";
 if (!fs.existsSync(sourceDir)) {
     out.msg("The specified source directory '" + sourceDir + "' does not exist.");
     process.exit(1);
 }
-var templateDir = args.template ? args.template : "./";
+var templateDir = args.template ? args.template : "./public";
 if (!fs.existsSync(templateDir)) {
     out.msg("The specified template directory '" + templateDir + "' does not exist.");
     process.exit(1);
