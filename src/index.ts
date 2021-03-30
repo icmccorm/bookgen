@@ -1,4 +1,4 @@
-
+#!/usr/bin/env node
 import * as fs from 'fs'
 import * as yargs from 'yargs'
 import * as out from './output'
