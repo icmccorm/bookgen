@@ -1,14 +1,17 @@
 {
-  "name": "page",
+  "name": "bookgen",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "preferGlobal": true,
+  "bin": { "bookgen": "index.js" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
   "author": "Ian C. McCormack",
   "license": "ISC",
+  "repository": "github:icmccorm/bookgen",
   "dependencies": {
     "@types/cheerio": "^0.22.26",
     "cheerio": "^1.0.0-rc.5",
