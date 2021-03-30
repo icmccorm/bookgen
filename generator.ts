@@ -98,10 +98,10 @@ export const generateChapters = (filenames: Array<string>): Array<RenderedChapte
         let title = "";
 
         if(firstHeadings.length == 0){
-            out.warn('Chapter ' + index + ' (' + filename[0] + ") does not have a heading.");
+            out.warn('Chapter ' + (index + 1) + ' (' + filename + ") does not have a heading.");
         }else{
             if(firstHeadings.length > 1){
-                out.warn('Chapter ' + index + ' (' + filename[0] + ") has more than one <h1>.");
+                out.warn('Chapter ' + (index + 1) + ' (' + filename + ") has more than one <h1>.");
             }
             title = (firstHeadings[0] as any).children[0].data;
         }

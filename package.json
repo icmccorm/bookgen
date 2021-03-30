@@ -2,10 +2,10 @@
   "name": "page",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ts-node ./compile.ts -i ./src -t ./public -o ./build",
+    "build": "tsc ./index.ts",
     "deploy": "npm run build;  gh-pages -d build"
   },
   "author": "",

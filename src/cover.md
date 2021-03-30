@@ -1,8 +1,0 @@
-# The Beginner's Guide to Research in Computer Science
-
-Students begin to approach research early - often during their first year of university, or even prior. As projects come to fruition, an initial interest in engineering, mathematics, ethics, or software design can quickly run up to the steep learning curve of life in academia. Mentorship and collaboration are necessary tools for any aspiring researcher, but they should not be the only source of guidance in the face of the diversity of lived, human experience and the sheer breadth of both skills and fundamental know-how that is a necessary to succeed at the highest levels of academia. 
-
-If you're interested in joining the Computer Science community but feel lost, left out, or are frustrated at the constant expectation to *just know* how everything functions from the get-go, then this is the guide for you. A mix of advice, statistics, and the lived-experiences both students and their mentors, it begins at a student's perspective on *day one* of research and ends with an overview of major academic publishing organizations, including topics like work-life balance, research skills, the peer review process, and copyright.
-
-*The Beginner's Guide* is a living, open-source document. If you have relevant experience in research,
-publishing, or mentorship, please consider reviewing, criticizing, or otherwise contributing to this work. Clone [the repository](https://github.com/icmccormack/page), submit a pull request, and add your name to the [list of contributors](https://github.com/icmccormack/page/blob/main/contributors.md). Together, we can help make Computer Science, and STEM research as a whole, less intimidating for newcomers.
