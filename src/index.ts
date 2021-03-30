@@ -22,13 +22,13 @@ const args = yargs
     })  
     .argv;
 
-const sourceDir = args.input ? args.input : "./";
+const sourceDir = args.input ? args.input : "./src";
 if(!fs.existsSync(sourceDir)){
     out.msg("The specified source directory '" + sourceDir + "' does not exist.");
     process.exit(1);
 }
 
-const templateDir = args.template ? args.template : "./";
+const templateDir = args.template ? args.template : "./public";
 if(!fs.existsSync(templateDir)){
     out.msg("The specified template directory '" + templateDir + "' does not exist.");
     process.exit(1);
