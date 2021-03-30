@@ -1,9 +1,9 @@
-import * as MarkdownIt from 'markdown-it'
 import * as cheerio from 'cheerio'
 import * as out from './output'
 import * as fs from 'fs'
 import * as path from 'path'
 
+const MarkdownIt = require("markdown-it");
 const md = new MarkdownIt();
 
 const ENCODING = "utf-8";

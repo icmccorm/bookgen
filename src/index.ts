@@ -2,13 +2,10 @@
 import * as fs from 'fs'
 import * as yargs from 'yargs'
 import * as out from './output'
-import * as MarkdownIt from 'markdown-it'
 import * as cheerio from 'cheerio'
 import * as path from 'path'
 import * as fse from 'fs-extra'
 import * as generator from './generator'
-
-const md = new MarkdownIt();
 
 const args = yargs
     .option("input", {

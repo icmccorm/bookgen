@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc ./index.ts",
-    "deploy": "npm run build;  gh-pages -d build"
+    "build": "tsc"
   },
-  "author": "",
+  "author": "Ian C. McCormack",
   "license": "ISC",
   "dependencies": {
     "@types/cheerio": "^0.22.26",
